@@ -6,9 +6,8 @@ const userRouter = require('./routes/userRoutes');
 
 const app = express();
 
-// 1- MIDDLEWARES
+// MIDDLEWARES
 app.use(morgan('dev'));
-
 app.use(express.json());
 
 app.use((req, res, next) => {
@@ -20,6 +19,9 @@ app.use((req, res, next) => {
     req.requestTime = new Date().toISOString();
     next();
 });
+
+// STATIC FOLDERS
+app.use(express.static(`${__dirname}/public`))
 
 // 2- ROUTES
 app.use('/api/v1/tours', tourRouter);

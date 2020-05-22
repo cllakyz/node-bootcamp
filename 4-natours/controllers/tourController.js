@@ -39,7 +39,7 @@ exports.createTour = async (req, res) => {
 
     try {
         /*const newTour = new Tour({});
-    newTour.save();*/
+        newTour.save();*/
 
         const newTour = await Tour.create(req.body);
 

@@ -1,20 +1,30 @@
-const express = require('express');
-const morgan = require('morgan');
-const AppError = require('./utils/appError');
-const errorHandler = require('./controllers/errorController');
+const express   = require('express');
+const morgan    = require('morgan');
+const rateLimit = require('express-rate-limit');
+
+const AppError      = require('./utils/appError');
+const errorHandler  = require('./controllers/errorController');
 
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 
 const app = express();
 
-// MIDDLEWARES
+// 1) GLOBAL MIDDLEWARES
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
+
+const limiter = rateLimit({
+    max: 100,
+    windowMs: 60 * 60 * 1000,
+    message: 'Too many request from this IP, please try again in an hour!'
+});
+app.use('/api', limiter);
+
 app.use(express.json());
 
-// STATIC FOLDERS
+// 2) STATIC FOLDERS
 app.use(express.static(`${__dirname}/public`));
 
 app.use((req, res, next) => {
@@ -22,7 +32,7 @@ app.use((req, res, next) => {
     next();
 });
 
-// 2- ROUTES
+// 3) ROUTES
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 

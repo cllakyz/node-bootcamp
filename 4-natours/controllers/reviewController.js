@@ -1,30 +1,5 @@
 const Review        = require('./../models/reviewModel');
-const APIFeatures   = require('./../utils/apiFeatures');
-const catchAsync    = require('./../utils/catchAsync');
 const factory       = require('./handlerFactory');
-
-exports.getAllReviews = catchAsync(async (req, res, next) => {
-    let filter = {};
-    if (req.params.tourId) filter = { tour: req.params.tourId };
-    // BUILD QUERY
-    const features = new APIFeatures(Review.find(filter), req.query)
-        .filter()
-        .sort()
-        .limitFields()
-        .paginate();
-    // EXECUTE QUERY
-    const reviews = await features.query;
-
-    // SEND RESPONSE
-    res.status(200).json({
-        status: 'success',
-        requestedAt: req.requestTime,
-        results: reviews.length,
-        data: {
-            reviews
-        }
-    });
-});
 
 exports.setTourUserIds = (req, res, next) => {
     // Allow nested routes
@@ -33,6 +8,8 @@ exports.setTourUserIds = (req, res, next) => {
     next();
 };
 
-exports.createReview = factory.createOne(Review);
-exports.updateReview = factory.updateOne(Review);
-exports.deleteReview = factory.deleteOne(Review);
+exports.getAllReviews  = factory.getAll(Review);
+exports.createReview   = factory.createOne(Review);
+exports.getReview      = factory.getOne(Review);
+exports.updateReview   = factory.updateOne(Review);
+exports.deleteReview   = factory.deleteOne(Review);

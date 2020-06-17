@@ -14,7 +14,6 @@ exports.deleteOne = Model => catchAsync(async (req, res, next) => {
         data: null,
     });
 });
-
 exports.updateOne = Model => catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
@@ -31,7 +30,6 @@ exports.updateOne = Model => catchAsync(async (req, res, next) => {
         }
     });
 });
-
 exports.createOne = Model => catchAsync(async (req, res, next) => {
     const doc = await Model.create(req.body);
 
@@ -42,7 +40,6 @@ exports.createOne = Model => catchAsync(async (req, res, next) => {
         }
     });
 });
-
 exports.getOne = (Model, popOptions) => catchAsync(async (req, res, next) => {
     let query = Model.findById(req.params.id);
     if (popOptions) query = query.populate(popOptions);
@@ -58,7 +55,6 @@ exports.getOne = (Model, popOptions) => catchAsync(async (req, res, next) => {
         }
     });
 });
-
 exports.getAll = Model => catchAsync(async (req, res, next) => {
     // To allow for nested GET reviews on tour (hack)
     let filter = {};
@@ -70,6 +66,7 @@ exports.getAll = Model => catchAsync(async (req, res, next) => {
         .limitFields()
         .paginate();
     // EXECUTE QUERY
+    // const docs = await features.query.explain();
     const docs = await features.query;
 
     // SEND RESPONSE

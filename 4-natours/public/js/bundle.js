@@ -8904,21 +8904,20 @@ if (logOutBtn) {
 if (userDataForm) {
   userDataForm.addEventListener('submit', /*#__PURE__*/function () {
     var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(e) {
-      var name, email;
+      var form;
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
               e.preventDefault();
-              name = document.getElementById('name').value;
-              email = document.getElementById('email').value;
-              _context2.next = 5;
-              return (0, _updateSettings.updateSettings)({
-                name: name,
-                email: email
-              }, 'data');
+              form = new FormData();
+              form.append('name', document.getElementById('name').value);
+              form.append('email', document.getElementById('email').value);
+              form.append('photo', document.getElementById('photo').files[0]);
+              _context2.next = 7;
+              return (0, _updateSettings.updateSettings)(form, 'data');
 
-            case 5:
+            case 7:
             case "end":
               return _context2.stop();
           }

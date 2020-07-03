@@ -8496,7 +8496,12 @@ var logout = /*#__PURE__*/function () {
 
           case 3:
             res = _context2.sent;
-            if (res.data.status === 'success') location.reload(true);
+
+            if (res.data.status === 'success') {
+              // location.reload(true);
+              location.href = 'http://127.0.0.1:3000';
+            }
+
             _context2.next = 10;
             break;
 
